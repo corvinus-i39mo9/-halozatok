@@ -1,0 +1,45 @@
+h1{
+    font-family:'Courier New';
+    color: white;
+    font-weight: 300;
+}
+
+h2 {
+    font-family: 'Bell MT';
+    color: grey;
+    font-style: italic;
+}
+
+a:hover{
+    color: deeppink;
+}
+
+#felsoresz {
+    background-color: lightcoral;
+    text-align: center;
+    padding: 5px;
+    border-radius: 25px;
+    border-bottom: 3px solid pink;
+}
+
+body{
+    background-color: #292929;
+}
+
+hr{
+    width: 70%;
+    height: 4px;
+    color: white;
+}
+
+#tartalom{
+    background-color: antiquewhite;
+    width: 60%;
+    margin-left: 20px;
+    border: 2px medium gold;
+    padding: 10px;
+}
+
+#kutya{
+    float: right;
+}
