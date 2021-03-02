@@ -1,0 +1,115 @@
+    h1{
+    font-family:'Courier New';
+    color: white;
+    font-weight: 300;
+}
+
+    h2 {
+    font-family: 'Bell MT';
+    color: grey;
+    font-style: italic;
+}
+
+    a:hover{
+    color: deeppink;
+}
+
+    #header {
+    background-color: lightcoral;
+    text-align: center;
+    padding: 5px;
+    border-radius: 25px;
+    border-bottom: 3px solid pink;
+}
+
+    body{
+    background-color: #292929;
+}
+
+    hr{
+    width: 70%;
+    height: 4px;
+    color: white;
+}
+
+    .article {
+    background-color: darksalmon;
+    border: 2px medium gold;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+    #aside {
+    background-color: deepskyblue;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align:center;
+}
+
+    * {
+    box-sizing: border-box;
+}
+
+    #nav {
+    padding: 30px;
+    background-color: white;
+    display: flex;
+    width:100%;
+    text-align:center;
+}
+
+img {
+    max-width: 30%;
+    height: auto;
+}
+
+    #nav a {
+        flex: 1 1 auto;
+        text-decoration: none;
+        color: black;
+    }
+    
+    #footer{
+    background-color: thistle;
+    padding:10px;
+    text-align:center;
+}
+
+    #main {
+    flex-wrap: wrap;
+}
+
+    #nav {
+    order: -1;
+    flex-wrap: wrap;
+    margin-bottom:0px;
+}
+
+@media screen and (min-width: 800px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        max-width: 1500px;
+        margin: auto;
+    }
+
+    #nav {
+        margin-bottom: 30px;
+    }
+
+    #main {
+        display: flex;
+    }
+
+    #szoveg {
+        flex: 1 1 50%;
+        align-items: center;
+    }
+
+    #aside {
+        flex: 1 1 50%;
+        align-items:center;
+        
+    }
+}
+
