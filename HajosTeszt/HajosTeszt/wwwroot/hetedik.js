@@ -2,6 +2,8 @@
 var kerdesek;
 var aktualisKerdes;
 var kerdesszam;
+var hovaKattintottam;
+var helyesvalasz = 0;
 
 window.addEventListener('load', (event) => {
     aktualisKerdes = 0;
@@ -19,7 +21,7 @@ function kerdesmegjelenit(k) {
     temp2 = (kerdesek[k].answer1);
     temp3 = (kerdesek[k].answer2);
     temp4 = (kerdesek[k].answer3);
-    temp5 = (kerdesek[k].correctAnswer);
+    helyesvalasz = (kerdesek[k].correctAnswer);
     temp6 = (kerdesek[k].image);
     document.getElementById("kerdes_szoveg").innerText = temp1;
     document.getElementById("valasz1").innerText = temp2;
@@ -45,10 +47,37 @@ function letoltesvege(d) {
 
     document.getElementById("vissza").addEventListener('click', (event) => {
             kerdesmegjelenit(aktualisKerdes - 1);
-            aktualisKerdes -= 1;
+        aktualisKerdes -= 1;
     });
     document.getElementById("elore").addEventListener('click', (event) => {
             kerdesmegjelenit(aktualisKerdes + 1);
-            aktualisKerdes += 1;
+        aktualisKerdes += 1;
     });
+    /*
+    document.getElementById("valasz1").addEventListener('click', (event) => {
+        hovaKattintottam = 1;
+        console.log(helyesvalasz);
+        document.getElementById("valasz1").style.backgroundColor = "red";
+        if (helyesvalasz = hovaKattintottam) {
+            document.getElementById("valasz1").style.backgroundColor = "green";
+        }
+    });
+    document.getElementById("valasz2").addEventListener('click', (event) => {
+        hovaKattintottam = 2;
+        console.log(helyesvalasz);
+        document.getElementById("valasz2").style.backgroundColor = "red";
+        if (helyesvalasz = hovaKattintottam) {
+            document.getElementById("valasz2").style.backgroundColor = "green";
+        }
+    });
+    document.getElementById("valasz3").addEventListener('click', (event) => {
+        hovaKattintottam = 3;
+        console.log(helyesvalasz);
+        document.getElementById("valasz3").style.backgroundColor = "red";
+        if (helyesvalasz = hovaKattintottam) {
+            document.getElementById("valasz3").style.backgroundColor = "green";
+        }
+    });
+    */
 }
+
