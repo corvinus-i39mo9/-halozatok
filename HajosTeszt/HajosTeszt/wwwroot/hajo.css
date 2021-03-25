@@ -1,6 +1,7 @@
 ﻿html, body {
     height: 100%;
     font-family: 'Raleway', sans-serif;
+    margin:0;
 }
 
 .kattintható:hover {
@@ -9,8 +10,16 @@
     cursor: pointer;
 }
 
-#kérdés_szöveg{
-    padding-bottom:15px;
+#kerdes_szoveg {
+    padding-bottom: 15px;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    justify-content: stretch;
+    background-color: #aaf332;
+    color: black;
+    padding: 10px;
+    margin-bottom: 5px;
 }
 
 .rossz {
@@ -27,17 +36,6 @@
     flex-direction: column;
 }
 
-#kérdés_szöveg {
-    display: flex;
-    height: 40px;
-    align-items: center;
-    justify-content: stretch;
-    background-color: #aaf332;
-    color: black;
-    padding: 10px;
-    margin-bottom: 5px;
-}
-
 #középső {
     display: flex;
     flex-direction: row;
@@ -50,7 +48,7 @@
     margin-right: 5px;
 }
 
-#kép {
+#kep {
     overflow: hidden;
     flex-shrink: 0;
 }
