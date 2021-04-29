@@ -1,19 +1,16 @@
 
 var kerdesek;
-var aktualisKerdes;
-var kerdesszam;
-var hovaKattintottam;
+var aktualisKerdes = 1;
 var helyesvalasz = 0;
 
-window.addEventListener('load', (event) => {
-    aktualisKerdes = 0;
-    fetch('/questions/1')
-        .then(response => response.json())
-        .then(data => kérdésBetöltés(data)
-        );
-});
+window.onload = function (e) {
+    console.log("Oldal betöltve...");
+    kerdesBetoltes(aktualisKerdes);
+    document.getElementById("elore").onclick = elorefv();
+    document.getElementById("vissza").onclick = visszafv();
+}
 
-function kérdésBetöltés(id) {
+function kerdesBetoltes(id) {
     fetch(`/questions/${id}`)
         .then(response => {
             if (!response.ok) {
@@ -23,59 +20,44 @@ function kérdésBetöltés(id) {
                 return response.json()
             }
         })
-        .then(data => kérdésMegjelenítés(data));   
-
-function kérdésMegjelenítés(kérdés) {
-    console.log(kérdés);
-    document.getElementById("kerdes_szoveg").innerText = kérdés.questionText
-    document.getElementById("valasz1").innerText = kérdés.answer1
-    document.getElementById("valasz2").innerText = kérdés.answer2
-    document.getElementById("valasz3").innerText = kérdés.answer3
-    document.getElementById("kep").src = "https://szoft1.comeback.hu/hajo/" + kérdés.image;
-    letoltesvege() ;
+        .then(data => kerdesMegjelenites(data));
 }
 
-function letoltesvege(d) {
-    console.log("Sikeres letöltés");
-    console.log(d);
-    kerdesek = d;
-    kerdesszam = kerdesek.length;
-    kerdesmegjelenit(0);
-    aktualisKerdes = 0;
+function kerdesMegjelenites(kerdes) {
+    if (!kerdes) return;
+    aktualisKerdes = kerdes.id;
+    console.log(kerdes);
+    document.getElementById("kerdes_szoveg").innerText = kerdes.questionText
+    document.getElementById("valasz1").innerText = kerdes.answer1
+    document.getElementById("valasz2").innerText = kerdes.answer2
+    document.getElementById("valasz3").innerText = kerdes.answer3
+    helyesvalasz = kerdes.correctAnswer;
+    if (kerdes.image) {
+        document.getElementById("kep").src = "https://szoft1.comeback.hu/hajo/" + kerdes.image;
+        document.getElementById("kep").classList.remove("rejtett")
+    }
+    else {
+        document.getElementById("kep").classList.add("rejtett")
+    }
+    document.getElementById("valasz1").classList.remove("jo", "rossz");
+    document.getElementById("valasz2").classList.remove("jo", "rossz");
+    document.getElementById("valasz3").classList.remove("jo", "rossz");
+}
+function valasztas(szam) {
+    console.log(helyesvalasz);
+    document.getElementById("valasz" + szam).style.backgroundColor = "red";
+    if (helyesvalasz = szam) {
+        document.getElementById("valasz" + szam).style.backgroundColor = "green";
+    }
+}
 
-    document.getElementById("vissza").addEventListener('click', (event) => {
-            kerdesmegjelenit(aktualisKerdes - 1);
-        aktualisKerdes -= 1;
-    });
-    document.getElementById("elore").addEventListener('click', (event) => {
-            kerdesmegjelenit(aktualisKerdes + 1);
-        aktualisKerdes += 1;
-    });
-    /*
-    document.getElementById("valasz1").addEventListener('click', (event) => {
-        hovaKattintottam = 1;
-        console.log(helyesvalasz);
-        document.getElementById("valasz1").style.backgroundColor = "red";
-        if (helyesvalasz = hovaKattintottam) {
-            document.getElementById("valasz1").style.backgroundColor = "green";
-        }
-    });
-    document.getElementById("valasz2").addEventListener('click', (event) => {
-        hovaKattintottam = 2;
-        console.log(helyesvalasz);
-        document.getElementById("valasz2").style.backgroundColor = "red";
-        if (helyesvalasz = hovaKattintottam) {
-            document.getElementById("valasz2").style.backgroundColor = "green";
-        }
-    });
-    document.getElementById("valasz3").addEventListener('click', (event) => {
-        hovaKattintottam = 3;
-        console.log(helyesvalasz);
-        document.getElementById("valasz3").style.backgroundColor = "red";
-        if (helyesvalasz = hovaKattintottam) {
-            document.getElementById("valasz3").style.backgroundColor = "green";
-        }
-    });
-    */
+function elorefv() {
+    aktualisKerdes++;
+    kerdesMegjelenites(aktualisKerdes)
+}
+
+function visszafv() {
+    aktualisKerdes--;
+    kerdesMegjelenites(aktualisKerdes)
 }
 

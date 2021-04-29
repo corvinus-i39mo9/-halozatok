@@ -1,6 +1,6 @@
 ﻿<html>
 <head>
-    <script src="kilencedik.js"></script>
+    <script src="tizedik.js"></script>
     <link rel="stylesheet" href="hajo.css" />
     <meta charset="utf-8" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -15,17 +15,17 @@
 
         <div id="középső">
             <div id="válaszok">
-                <div id="valasz1" class="kerdes kattintható">Válasz 1</div>
-                <div id="valasz2" class="kerdes kattintható">Válasz 2</div>
-                <div id="valasz3" class="kerdes kattintható">Válasz 3</div>
+                <div id="valasz1" onclick="valasztas(1, `valasz1`)" class="kerdes kattintható">Válasz 1</div>
+                <div id="valasz2" onclick="valasztas(2, `valasz2`)" class="kerdes kattintható">Válasz 2</div>
+                <div id="valasz3" onclick="valasztas(3, `valasz3`)" class="kerdes kattintható">Válasz 3</div>
             </div>
             <div id="kep">
                 <img id="kep1" src="https://szoft1.comeback.hu/hajo/teszt-0050.jpg" />
             </div>
         </div>
         <div id="vezérlő">
-            <div class="gomb kattintható" id="vissza">Vissza</div>
-            <div class="gomb kattintható" id="elore">Előre</div>
+            <div class="gomb kattintható" id="vissza" onclick="vissza()">Vissza</div>
+            <div class="gomb kattintható" id="elore" onclick="elore()">Előre</div>
         </div>
     </div>
 </body>

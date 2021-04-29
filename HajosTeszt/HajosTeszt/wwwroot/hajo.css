@@ -53,6 +53,10 @@
     flex-shrink: 0;
 }
 
+#rejtett {
+    display: none;
+}
+
 #vezérlő {
     display: flex;
     flex-direction: row;
