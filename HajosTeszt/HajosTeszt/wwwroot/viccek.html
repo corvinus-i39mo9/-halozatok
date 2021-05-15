@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .kattintható:hover {
+            background-color: #daf332;
+            color: black;
+            cursor: pointer;
+        }
+        #vicc {
+            padding-bottom: 15px;
+            display: flex;
+            height: 40px;
+            align-items: center;
+            justify-content: stretch;
+            background-color: #aaf332;
+            color: black;
+            padding: 10px;
+            margin-bottom: 5px;
+        }
+        #vezérlő {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .gomb {
+            padding: 20px;
+            width: 80px;
+            transition: color 500ms, background-color 1s;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div id="jokeList"></div>
+        <div>
+            <input id="jokeText" type="text" placeholder="Csak PC vicc" />
+        </div>
+        <button id="addButton">Új vicc felvétele</button>
+        <div style="margin-top:20;">
+            <div id="vicc">
+                Itt lesz a vicc
+            </div>
+            <div id="vezérlő">
+                <div class="gomb kattintható" id="vissza_gomb">Vissza</div>
+                <div class="gomb kattintható" id="elore_gomb">Előre</div>
+            </div>
+        </div>
+    </form>
+    <script>
+
+        document.getElementById("addButton").addEventListener("click", () => {
+
+            //Ezt az objektumot fogjuk átküldeni
+            let data = {
+                text: document.getElementById("jokeText").value
+            }
+
+
+            fetch("api/jokes",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(x => {
+                    if (x.ok) {
+                        alert("Siker");
+
+                    }
+                    else {
+                        alert("Kudarc");
+                    }
+                });
+        });
+
+
+
+
+
+        var viccek = [];
+        //var questionsInHotList = 3;
+        var displayedVicc;
+        var numberOfJokes;
+        var nextVicc = 1;
+
+        function init() {
+            for (let i = 0; i < numberOfJokes; i++) {
+                viccek[i] = {
+                    jokeText: {},
+                }
+                viccBetoltes(nextVicc, i);
+                nextVicc++;
+            }
+
+            document.getElementById("elore_gomb").addEventListener("click", elore);
+            document.getElementById("vissza_gomb").addEventListener("click", vissza);
+
+            fetch("/viccek/count")
+                .then(result => result.text())
+                .then(n => { numberOfJokes = parseInt(n) })
+        }
+
+        function viccBetoltes(jokeNumber, destination) {
+            fetch(`/api/jokes/${jokeNumber}`)
+                .then(
+                    result => {
+                        if (!result.ok) {
+                            console.error(`Hibás letöltés: ${response.status}`)
+                        }
+                        else {
+                            return result.json()
+                        }
+                    }
+                )
+                .then(
+                    q => {
+                        viccek[destination].jokeText = q;
+                        console.log(`A ${viccNumber}. vicc letöltve a tömb ${destination}. helyére`)
+                        if (displayedQuestion == undefined && destination == 0) {
+                            displayedVicc = 0;
+                            viccMegjelenites();
+                        }
+                    }
+                );
+        }
+
+        function viccMegjelenites() {
+            let vicc = viccek[displayedVicc].jokeText;
+            console.log(vicc);
+            document.getElementById("vicc").innerText = vicc.jokeText;
+        }
+
+        window.onload = init;
+
+        function elore() {
+            displayedVicc++;
+            if (displayedVicc == numberOfJokes) displayedVicc = 0;
+            viccMegjelenites();
+        }
+
+        function vissza() {
+            displayedVicc--;
+            if (displayedVicc < 0) displayedVicc = numberOfJokes - 1;
+            viccMegjelenites();
+        }
+    </script>
+</body>
+</html>
