@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>LEADANDÓ</title>
+
+    <style>
+        h1 {
+            font-size: 20px;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        #tablazat {
+            border-spacing: 0px;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 15px;
+        }
+
+        th {
+            font-weight: bold;
+            border: 1px solid #cccccc;
+            padding: 8px;
+            background-color: #ffff5c;
+        }
+
+        td {
+            border: 1px solid #cccccc;
+            padding: 8px;
+            text-align: center;
+        }
+
+        tr {
+            border-top: 1px solid #cccccc;
+            border-bottom: 1px solid #cccccc;
+        }
+
+        th, td {
+            border: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: #FFFFDB;
+        }
+
+        .btn {
+            border: 1px solid black;
+            background-color: #ffff5c;
+            color: black;
+            padding: 8px 58px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: white;
+            }
+    </style>
+
+    <script>
+        var osszesSor;
+        window.onload = init;
+        function init() {
+            fetch(`/leadando/count`)
+                .then(result => result.text())
+                .then(n => { osszesSor = parseInt(n) })
+            listazas();
+        }
+
+        function listazas() {
+            fetch(`api/leadando`)
+                .then(response => response.json())
+                .then(data => kiiratás(data))
+        }
+        function kiiratás(lista) {
+            console.log(lista);
+
+            for (var i = 0; i < lista.length; i++) {
+                let újSor = document.createElement("tr");
+                újSor.setAttribute("id", "sor" + i);
+                let újCella1 = document.createElement("td");
+                let újCella2 = document.createElement("td");
+                let újCella3 = document.createElement("td");
+                let újCella4 = document.createElement("td");
+                újCella1.innerText = lista[i]["studentId"];
+                újCella2.innerText = lista[i]["name"];
+                újCella3.innerText = lista[i]["yearBorn"];
+                újCella4.innerText = lista[i]["hobbies"];
+                document.getElementById("tablazat").appendChild(újSor);
+                document.getElementById("sor" + i).appendChild(újCella1);
+                document.getElementById("sor" + i).appendChild(újCella2);
+                document.getElementById("sor" + i).appendChild(újCella3);
+                document.getElementById("sor" + i).appendChild(újCella4)
+            }
+        }
+    </script>
+</head>
+<body>
+    <table style="width:100%">
+        <tr>
+            <td><h1 style="text-align:left">A tanulók adatai</h1></td>
+            <td style="text-align:right">
+            <a href="#tudnivalok" style="margin-right:20px; color:black">TUDNIVALÓK</a>
+            <button id="frissites" class="btn" onclick="document.location.reload()">Adatok frissítése</button></td>
+        </tr>
+    </table>
+    <div>
+        <table id="tablazat">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Név</th>
+                    <th>Születési év</th>
+                    <th>Hobbik</th>
+                </tr>
+            </thead>
+            <tbody id="data">
+            </tbody>
+        </table>
+    </div>
+    <table align="center">
+        <tr>
+            <td>
+                <p><b>Új diák felvétele a táblába</b></p>
+                <form>
+                    <table>
+                        <tr style="background-color:white">
+                            <td><label for="name">Név:</label></td>
+                            <td><input type="text" id="name"></td>
+                        </tr>
+                        <tr style="background-color:white">
+                            <td><label for="yearBorn">Születési év:</label></td>
+                            <td><input type="text" id="yearBorn"></td>
+                        </tr>
+                        <tr style="background-color:white">
+                            <td><label for="hobbies">Hobbik:</label></td>
+                            <td><input type="text" id="hobbies"></td>
+                        </tr>
+                        <tr style="background-color:white">
+                            <td colspan="2" align="right">
+                                <button id="ujsor" class="btn">OK</button>
+                                <script>
+                                    document.getElementById("ujsor").addEventListener("click", () => {
+                                        let data = '{ "name": "' + document.getElementById("name").value + '", "yearBorn": "' + document.getElementById("yearBorn").value + '", "hobbies": "' + document.getElementById("hobbies").value + '" }';
+                                        fetch(('api/leadando/'),
+                                            {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: data
+                                            }).then(x => {
+                                                if (x.ok) {
+                                                    console.log("Siker");
+                                                }
+                                                else {
+                                                    console.log("Kudarc");
+                                                }
+                                            });
+                                    })
+                                </script>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+            <td>
+                <p><b>Diák törlése a táblából</b></p>
+                <form>
+                    <table>
+                        <tr style="background-color:white">
+                            <td><label for="studentId">ID:</label></td>
+                            <td><input type="text" id="studentId"></td>
+                        </tr>
+                        <tr style="background-color:white">
+                            <td colspan="2" align="right">
+                                <button id="sortorles" class="btn">OK</button>
+                                <script>
+                                    document.getElementById("sortorles").addEventListener("click", () => {
+                                        var studentId = document.getElementById("studentId").value;
+                                        fetch(`api/leadando/` + studentId,
+                                            {
+                                                method: 'DELETE'
+                                            })
+
+                                            .then(x => {
+                                                if (x.ok) {
+                                                    console.log("Siker");
+                                                }
+                                                else {
+                                                    console.log("Kudarc");
+                                                }
+                                            });
+                                    });
+                                </script>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <h1 style="text-align:left;" id="tudnivalok">Tudnivalók</h1>
+    <ul>
+        <li>!!! Sor hozzáadása/törlése után meg kell nyomni az "Adatok frissítése" gombot, hogy látszódjon az eredmény !!!</li>
+        <li>Tábla rekordjainak számát megjelenítő API: https://localhost:44368/leadando/count</li>
+        <li>Egy rekord lekérdezése kulcs alapján: https://localhost:44368/api/leadando/{studentID}</li>
+    </ul>
+</body>
+</html>

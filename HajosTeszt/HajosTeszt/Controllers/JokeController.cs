@@ -59,7 +59,7 @@ namespace HajosTeszt.Controllers
         }
 
         [HttpGet]
-        [Route("viccek/count")]
+        [Route("/viccek/count")]
         public int M1()
         {
             FunnyDatabaseContext context = new FunnyDatabaseContext();
